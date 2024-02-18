@@ -26,7 +26,7 @@ const SignUp = () => {
                         <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Password" type="password"/>
                         <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Confirm password" type="password"/>
                     </div>
-                    <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" type="date"/>
+                    
                     <div className="flex mt-[20px] items-center justify-between">
                         <button className="px-6 py-3 rounded-full bg-blue-900 text-md text-white font-bold hover:bg-violet-900">Sign Up</button>
                         <Link href="/login" className="text-md font-semibold text-blue-800 hover:underline hover:cursor-pointer">Already have an account?</Link>
