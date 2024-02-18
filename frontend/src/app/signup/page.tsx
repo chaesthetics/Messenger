@@ -1,11 +1,38 @@
-import React from "react";
+'use client'
+import { useState } from 'react'
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
-const SignUp = () => {
-    return(
-        <div>
+export default function SignUp(){
+
+    const [firstname, setFirstname] = useState<string>("");
+    const [lastname, setLastname] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const [birthdate, setBirthDate] = useState<string>("");
+
+    const handleFirstnameChange = (event: any) => setFirstname(event.target.value);
+    const handleLastnameChange = (event: any) => setLastname(event.target.value);
+    const handleEmailChange = (event: any) => setEmail(event.target.value);
+    const handlePasswordChange = (event: any) => setPassword(event.target.value);
+    const handleConfirmPasswordChange = (event: any) => setConfirmPassword(event.target.value);
+    const handleBirthdateChange = (event: any) => setBirthDate(event.target.value);
+
+    const [alertMessage, setAlertMessage] = useState<string>("");
+
+    const handleSignUp = async(event: React.FormEvent) => {
+        event.preventDefault();
+        if(password === confirmPassword){
+            await signUp(firstname, lastname, email, password);
+        }else{
+            setAlertMessage("Password Does not Match");
+        }
+    }
+
+return(
+    <div>
         <Navbar />
         <div className="flex w-full">
             <div className="px-20 py-10 space-y-8">
@@ -16,22 +43,57 @@ const SignUp = () => {
                     <p>Messenger makes it easy and fun to stay close to your</p>
                     <p>favorite people.</p>
                 </div>
-                <div className="flex justify-center LoginForm flex flex-col space-y-4 w-[500px] px-2 mt-[10px]">
-                    <div className="flex space-x-2 w-full">
-                        <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Firstname" type="text"/>
-                        <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Lastname" type="text"/>
+                <form onSubmit={handleSignUp}>
+                    <div className="flex justify-center LoginForm flex flex-col space-y-4 w-[500px] px-2 mt-[10px]">
+                        <div className="flex space-x-2 w-full">
+                            <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" 
+                                placeholder="Firstname" 
+                                type="text"
+                                onChange={handleFirstnameChange}
+                                value={firstname}
+                            />
+                            <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" 
+                                placeholder="Lastname" 
+                                type="text"
+                                onChange={handleLastnameChange}
+                                value={lastname}
+                            />
+                        </div>
+                        <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" 
+                            placeholder="Email or phone number" 
+                            type="text"
+                            onChange={handleEmailChange}
+                            value={email}
+                        />
+                        <div className="flex space-x-2 w-full">
+                            <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" 
+                                placeholder="Password" 
+                                type="password"
+                                onChange={handlePasswordChange}
+                                value={password}
+                            />
+                            <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" 
+                                placeholder="Confirm password" 
+                                type="password"
+                                onChange={handleConfirmPasswordChange}
+                                value={confirmPassword}
+                            />
+                        </div>
+                        <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1"
+                            type="date"
+                            onChange={handleBirthdateChange}
+                            value={birthdate}
+                        />
+                        <div className="flex mt-[20px] items-center justify-between">
+                            <button className="px-6 py-3 rounded-full bg-blue-900 text-md text-white font-bold hover:bg-violet-900"
+                                onClick={handleSignUp}
+                            >
+                                Sign Up
+                            </button>
+                            <Link href="/login" className="text-md font-semibold text-blue-800 hover:underline hover:cursor-pointer">Already have an account?</Link>
+                        </div>
                     </div>
-                    <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Email or phone number" type="text"/>
-                    <div className="flex space-x-2 w-full">
-                        <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Password" type="password"/>
-                        <input className="w-5/6 bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Confirm password" type="password"/>
-                    </div>
-                    
-                    <div className="flex mt-[20px] items-center justify-between">
-                        <button className="px-6 py-3 rounded-full bg-blue-900 text-md text-white font-bold hover:bg-violet-900">Sign Up</button>
-                        <Link href="/login" className="text-md font-semibold text-blue-800 hover:underline hover:cursor-pointer">Already have an account?</Link>
-                    </div>
-                </div>
+                </form>
             </div>
             <div className="flex justify-center items-center w-full">
                 {/* <img src={'/default.jpg'} alt="alt" className="w-full shadow-2xl rounded-xl"/> */}
@@ -42,5 +104,3 @@ const SignUp = () => {
     </div>
     )
 }
-
-export default SignUp;
