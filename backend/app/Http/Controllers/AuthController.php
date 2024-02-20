@@ -23,7 +23,11 @@ class AuthController extends Controller
     {
         $token = $this->authService->register($request->all());
 
-        return response()->json(['token'=>$token], Response::HTTP_CREATED);
+        return response()->json([
+            'status' => true,
+            'message' => 'Registered Succesfully',
+            'token' => $token,
+        ], Response::HTTP_CREATED);
     }
 
     public function login(Request $request)

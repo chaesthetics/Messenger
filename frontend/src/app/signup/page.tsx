@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { signUp } from '@/hooks/useAuth';
 
 export default function SignUp(){
 
@@ -25,7 +26,8 @@ export default function SignUp(){
     const handleSignUp = async(event: React.FormEvent) => {
         event.preventDefault();
         if(password === confirmPassword){
-            await signUp(firstname, lastname, email, password);
+            const { message } = await signUp(firstname, lastname, email, password);
+            console.log({message});
         }else{
             setAlertMessage("Password Does not Match");
         }
