@@ -4,9 +4,12 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { signUp } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation'
+
+
 
 export default function SignUp(){
-
+    const router = useRouter();
     const [firstname, setFirstname] = useState<string>("");
     const [lastname, setLastname] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -26,13 +29,15 @@ export default function SignUp(){
     const handleSignUp = async(event: React.FormEvent) => {
         event.preventDefault();
         if(password === confirmPassword){
-            const { message } = await signUp(firstname, lastname, email, password);
-            console.log({message});
+            const { message, status } = await signUp(firstname, lastname, email, password);
+            setAlertMessage(message);
+            if(status){
+                router.push('/login');
+            }
         }else{
             setAlertMessage("Password Does not Match");
         }
     }
-
 return(
     <div>
         <Navbar />

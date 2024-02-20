@@ -21,13 +21,21 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $token = $this->authService->register($request->all());
+        try{
+            $token = $this->authService->register($request->all());
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Registered Succesfully',
-            'token' => $token,
-        ], Response::HTTP_CREATED);
+            return response()->json([
+                'status' => true,
+                'message' => 'Registered Succesfully',
+                'token' => $token,
+            ], Response::HTTP_CREATED);
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+       
     }
 
     public function login(Request $request)
