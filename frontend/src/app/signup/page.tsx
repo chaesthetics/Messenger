@@ -5,8 +5,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { signUp } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation'
-
-
+import { stat } from 'fs';
 
 export default function SignUp(){
     const router = useRouter();
@@ -25,13 +24,15 @@ export default function SignUp(){
     const handleBirthdateChange = (event: any) => setBirthDate(event.target.value);
 
     const [alertMessage, setAlertMessage] = useState<string>("");
+    const [status, setStatus] = useState<number>(0);
 
     const handleSignUp = async(event: React.FormEvent) => {
         event.preventDefault();
         if(password === confirmPassword){
             const { message, status } = await signUp(firstname, lastname, email, password);
             setAlertMessage(message);
-            if(status){
+            setStatus(status);
+            if(status == 201){
                 router.push('/login');
             }
         }else{
