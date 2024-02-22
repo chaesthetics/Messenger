@@ -15,6 +15,6 @@ export const signUp = async(firstname: string, lastname: string, email: string, 
     }
 }
 
-export const useAuth = () => {
-    
-}
+// export const useAuth = () => {
+//     if(localStorage.getItem("token") !== null)
+// }
