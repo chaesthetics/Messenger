@@ -14,3 +14,7 @@ export const signUp = async(firstname: string, lastname: string, email: string, 
         return { message, status };
     }
 }
+
+export const useAuth = () => {
+    
+}
