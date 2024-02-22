@@ -4,8 +4,7 @@ import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { signUp } from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation'
-import { stat } from 'fs';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp(){
     const router = useRouter();
