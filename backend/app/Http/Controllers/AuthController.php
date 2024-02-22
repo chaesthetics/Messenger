@@ -25,15 +25,15 @@ class AuthController extends Controller
             $token = $this->authService->register($request->all());
 
             return response()->json([
-                'status' => true,
+                'status' => Response::HTTP_CREATED,
                 'message' => 'Registered Succesfully',
                 'token' => $token,
             ], Response::HTTP_CREATED);
         }catch(\Throwable $th){
             return response()->json([
-                'status' => false,
+                'status' => Response::HTTP_METHOD_NOT_ALLOWED,
                 'message' => $th->getMessage(),
-            ], 500);
+            ], Response::HTTP_METHOD_NOT_ALLOWED);
         }
        
     }

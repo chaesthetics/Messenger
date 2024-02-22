@@ -1,9 +1,19 @@
-import React from "react";
+'use client'
+import { useState } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
 
 const logInPage = () => {
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    
+    const onEmailChange = (event:any) => setEmail(event.target.value); 
+    const onPasswordChange = (event: any) => setPassword(event.target.password);
+
+    const handleSignIn = async(event: React.FormEvent) => {
+        event.preventDefault();
+    }
     return (
         <div>
             <Navbar />
@@ -18,14 +28,26 @@ const logInPage = () => {
                         <p>Messenger makes it easy and fun to stay close to your</p>
                         <p>favorite people.</p>
                     </div>
+                    <form onSubmit={handleSignIn}>
                     <div className="LoginForm flex flex-col space-y-3 w-4/6 px-2 mt-[10px]">
-                        <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Email or phone number" type="text"/>
-                        <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" placeholder="Password" type="password"/>
+                        <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" 
+                            placeholder="Email or phone number" 
+                            type="text"
+                            onChange={onEmailChange}
+                        />
+                        <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1"
+                            placeholder="Password" 
+                            type="password"
+                            onChange={onPasswordChange}
+                        />
                         <div className="flex mt-[20px] items-center justify-between">
-                            <button className="px-6 py-3 rounded-full bg-blue-900 text-md text-white font-bold hover:bg-violet-900">Log in</button>
+                            <button className="px-6 py-3 rounded-full bg-blue-900 text-md text-white font-bold hover:bg-violet-900"
+                                onClick={handleSignIn}
+                            >Log in</button>
                             <Link href="/signup" className="text-md font-semibold text-blue-800 hover:underline hover:cursor-pointer">Create an account?</Link>
                         </div>
                     </div>
+                    </form>
                 </div>
                 <div className="col-span-4 px-16 py-10 items-center flex justiy-center h-[500px] mr-10">
                     <img src={'/default.jpg'} alt="alt" className="w-full shadow-2xl rounded-xl"/>
