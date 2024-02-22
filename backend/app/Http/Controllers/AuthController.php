@@ -9,7 +9,6 @@ use App\Services\AuthService;
 use Illuminate\Http\Response;
 use App\Models\User;
 
-
 class AuthController extends Controller
 {
     protected $authService;
