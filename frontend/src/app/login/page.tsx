@@ -20,9 +20,9 @@ const logInPage = () => {
             <div className="grid grid-cols-8 w-full">
                 <div className="col-span-4 px-16 py-10 space-y-8">
                     <div>
-                        <p className="bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-none">Hang out</p>
-                        <p className="bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-none">anytime, </p>
-                        <p className="bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-none">anywhere</p>
+                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-[100px]">Hang out</p>
+                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-[100px]">anytime, </p>
+                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-[100px]">anywhere</p>
                     </div>
                     <div className="text-lg text-gray-600 px-1">
                         <p>Messenger makes it easy and fun to stay close to your</p>
