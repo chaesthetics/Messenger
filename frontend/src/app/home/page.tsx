@@ -1,8 +1,22 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import SideBar from "@/components/sidebar";
 import Image from 'next/image';
 
 export default function homepage(){
+
+    const [prechat, setPreChat] = useState<string>("");
+
+    const handlePrechat = (event:any) => {
+        setPreChat(event.target.value);
+    }
+
+    const handleChat = (event: React.FormEvent) => {
+        event.preventDefault();
+        console.log(prechat);
+        setPreChat("");
+    }
+
     return(
         <div className="h-screen w-screen grid grid-cols-12 overflow-hidden">
             <div className="grid grid-cols-7 sideBar col-span-4 border-r-[1px] border-gray-200">
@@ -169,14 +183,14 @@ export default function homepage(){
                             <p className="max-w-[640px] text-[14px] break-words bg-gray-100 rounded-xl p-2">
                             If you’re wondering how we automatically generated the 50–950 shades of each color, bad news — color is complicated and to get the absolute best results we picked all of Tailwind’s default colors by hand, meticulously balancing them by eye and testing them in real designs to make sure we were happy with them.
 
-If you are creating your own custom color palette and don’t feel confident doing it by hand, UI Colors is a great tool that can give you a good starting point based on any custom color.
+                            If you are creating your own custom color palette and don’t feel confident doing it by hand, UI Colors is a great tool that can give you a good starting point based on any custom color.
 
-Two other useful tools we recommend for building your own palettes are Palettte and ColorBox — they won’t do the work for you but their interfaces are well-designed for doing this sort of work.
-You can also use variant modifiers to target media queries like responsive breakpoints, dark mode, prefers-reduced-motion, and more. For example, use md:break-all to apply the break-all utility at only medium screen sizes and above.
+                            Two other useful tools we recommend for building your own palettes are Palettte and ColorBox — they won’t do the work for you but their interfaces are well-designed for doing this sort of work.
+                            You can also use variant modifiers to target media queries like responsive breakpoints, dark mode, prefers-reduced-motion, and more. For example, use md:break-all to apply the break-all utility at only medium screen sizes and above.
                             </p>
                         </div>
                     </div>
-                    <div className="sticky bottom-0 h-[54px] flex justify-between items-center bg-white px-2 pl-4 pr-6">
+                    <form onSubmit={handleChat} className="sticky bottom-0 h-[54px] flex justify-between items-center bg-white px-2 pl-4 pr-6">
                         <div className="flex items-center space-x-2 w-full">
                             <div className="flex hover:bg-gray-200 hover:cursor-pointer transition-200 duration-300 animation-300 rounded-full h-[34px] w-[34px] items-center justify-center">
                                 <svg className="x1lliihq x1rdy4ex xcud41i x4vbgl9 x139jcc6 x1k90msu x11xpdln x1qfuztq xsrhx6k x7p49u4" fill="#be123c" height="30px" viewBox="0 0 36 36" width="30px"><path clip-rule="evenodd" d="M18 29c6.075 0 11-4.925 11-11S24.075 7 18 7 7 11.925 7 18s4.925 11 11 11zm-1-16a1 1 0 112 0v3.75c0 .138.112.25.25.25H23a1 1 0 110 2h-3.75a.25.25 0 00-.25.25V23a1 1 0 11-2 0v-3.75a.25.25 0 00-.25-.25H13a1 1 0 110-2h3.75a.25.25 0 00.25-.25V13z" fill="var(--chat-composer-button-color)" fill-rule="evenodd"></path></svg>
@@ -191,7 +205,7 @@ You can also use variant modifiers to target media queries like responsive break
                                 <svg className="x1lliihq x1rdy4ex xcud41i x4vbgl9 x139jcc6 xsrhx6k" fill="#be123c" height="30px" viewBox="0 0 36 36" width="30px"><path clip-rule="evenodd" d="M6 11a4 4 0 014-4h8c1.067 0 2.035.417 2.753 1.098.517.491 1.151.902 1.866.902H26a4 4 0 014 4v12a4 4 0 01-4 4h-8a3.986 3.986 0 01-2.752-1.098c-.518-.491-1.152-.902-1.866-.902H10a4 4 0 01-4-4V11zm7.865 4.908a1.948 1.948 0 00-1.321-.456c-.461.02-.918.214-1.295.576-.378.363-.65.873-.754 1.457a2.927 2.927 0 00.209 1.708c.236.52.611.915 1.046 1.14a1.87 1.87 0 001.36.152c.454-.122.88-.419 1.195-.868.098-.14.183-.291.253-.451.068-.154-.052-.316-.22-.316H12.85a.85.85 0 010-1.7h2.8c.47 0 .85.38.85.85a4.53 4.53 0 01-.803 2.593c-.527.75-1.277 1.3-2.144 1.534a3.57 3.57 0 01-2.586-.285c-.8-.414-1.43-1.107-1.811-1.947a4.628 4.628 0 01-.335-2.706 4.357 4.357 0 011.25-2.388 3.697 3.697 0 012.398-1.048 3.647 3.647 0 012.472.838.85.85 0 01-1.076 1.317zM22.7 19.6a.25.25 0 01.25-.25h2.75a.85.85 0 000-1.7h-2.75a.25.25 0 01-.25-.25v-1.45a.25.25 0 01.25-.25h3.2a.85.85 0 100-1.7h-4.3a.85.85 0 00-.85.85v6.3a.85.85 0 001.7 0V19.6zm-3.35-4.75a.85.85 0 00-1.7 0v6.3a.85.85 0 001.7 0v-6.3z" fill="var(--chat-composer-button-color)" fill-rule="evenodd"></path></svg>
                             </div>
                             <div className="w-full">
-                                <input className="bg-gray-100 w-[670px] py-[8px] text-md text-neutral-900 font-light focus:outline-none rounded-full px-4"
+                                <input onChange={handlePrechat} id="preChat" value={prechat} className="bg-gray-100 w-[670px] py-[8px] text-md text-neutral-900 font-light focus:outline-none rounded-full px-4"
                                 placeholder="Aa"
                                 />
                             </div>
@@ -199,7 +213,7 @@ You can also use variant modifiers to target media queries like responsive break
                         <div className="flex hover:bg-gray-200 hover:cursor-pointer transition-200 duration-300 animation-300 rounded-full h-[34px] w-[34px] items-center justify-center">
                             <svg aria-hidden="true" fill="#be123c" className="xsrhx6k" height="20" viewBox="0 0 22 23" width="20"><path d="M10.987 0c1.104 0 3.67.726 3.67 5.149 0 1.232-.123 2.001-.209 2.534a16.11 16.11 0 00-.048.314l-.001.005a.36.36 0 00.362.406c4.399 0 6.748 1.164 6.748 2.353 0 .533-.2 1.02-.527 1.395a.11.11 0 00.023.163 2.13 2.13 0 01.992 1.79c0 .86-.477 1.598-1.215 1.943a.11.11 0 00-.046.157c.207.328.329.713.329 1.128 0 .946-.547 1.741-1.406 2.029a.109.109 0 00-.068.137c.061.184.098.38.098.584 0 1.056-1.776 1.913-5.95 1.913-3.05 0-5.154-.545-5.963-.936-.595-.288-1.276-.81-1.276-2.34v-6.086c0-1.72.958-2.87 1.911-4.014C9.357 7.49 10.3 6.36 10.3 4.681c0-1.34-.091-2.19-.159-2.817-.039-.368-.07-.66-.07-.928 0-.527.385-.934.917-.936zM3.5 11h-2C.5 11 0 13.686 0 17s.5 6 1.5 6h2a1 1 0 001-1V12a1 1 0 00-1-1z" fill="var(--chat-composer-button-color)"></path></svg>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
