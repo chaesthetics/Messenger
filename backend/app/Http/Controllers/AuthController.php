@@ -34,12 +34,31 @@ class AuthController extends Controller
                 'message' => $th->getMessage(),
             ], Response::HTTP_METHOD_NOT_ALLOWED);
         }
-       
     }
 
     public function login(Request $request)
     {
-        $token = $this->authService->login($request->all());
-        return response()->json(['token'=>$token], Response::HTTP_CREATED);
+        try{
+            $token = $this->authService->login($request->all());
+
+            if(gettype($token)=='string'){
+                return response()->json([
+                    'status' => Response::HTTP_OK,
+                    'message' => 'Logged In Successfully',
+                    'token'=>$token,
+                ], Response::HTTP_OK);
+            }else{
+                return response()->json([
+                    'status' => Response::HTTP_METHOD_NOT_ALLOWED,
+                    'message' => 'Log In Failed',
+                ], Response::HTTP_METHOD_NOT_ALLOWED);
+            }
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => Response::HTTP_METHOD_NOT_ALLOWED,
+                'message' => $th->getMessage(),
+            ], Response::HTTP_METHOD_NOT_ALLOWED);
+        }
+       
     }
 }
