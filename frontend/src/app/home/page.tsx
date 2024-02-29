@@ -13,7 +13,7 @@ export default function homepage(){
 
     const handleChat = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log(prechat);
+        console.log("You:",prechat);
         setPreChat("");
     }
 
@@ -21,7 +21,8 @@ export default function homepage(){
         <div className="h-screen w-screen grid grid-cols-12 overflow-hidden">
             <div className="grid grid-cols-7 sideBar col-span-4 border-r-[1px] border-gray-200">
                 <SideBar />
-                <div className="w-full h-full col-span-6">
+                <div className="w-full h-screen col-span-6 overflow-y-scroll pb-2">
+                    <div className="sticky top-0 bg-white">
                     <div className="flex justify-between px-6 py-2 items-center">
                         <p className="font-bold text-2xl">Chats</p>
                         <div className="bg-gray-100 rounded-full px-2 py-2">
@@ -33,6 +34,7 @@ export default function homepage(){
                         placeholder="Search Messenger"
                         />
                         <svg xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 512 512" className="w-5 h-5 absolute left-8"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+                    </div>
                     </div>
                     <div className="flex flex-col w-full items-center">
                         <div className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
@@ -46,6 +48,45 @@ export default function homepage(){
                             <div className="space-y-3 mt-1">
                                 <p className="text-black font-light h-[12px]">Angie Marcheria</p>
                                 <div className="flex space-x-1"><p className="text-xs font-semibold">Putanginamu.</p><p className="text-xs font-light text-gray-600">15m</p></div>
+                            </div>
+                        </div>
+                        <div className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
+                            <Image 
+                                src={"data:image/jpeg;base64,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"}
+                                width={50}
+                                height={50}
+                                alt="profile"
+                                className="w-[50px] h-[50px] object-contain rounded-full items-center"
+                            />
+                            <div className="space-y-1 mt-1">
+                                <p className="text-black font-light h-[12px] leading-3">Auriel James Fernandez</p>
+                                <div className="flex space-x-1"><p className="text-xs font-semibold">HAHAHAHAHAH</p><p className="text-xs font-light text-gray-600">15m</p></div>
+                            </div>
+                        </div>
+                        <div className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
+                            <Image 
+                                src={"data:image/jpeg;base64,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"}
+                                width={50}
+                                height={50}
+                                alt="profile"
+                                className="w-[50px] h-[50px] object-contain rounded-full items-center"
+                            />
+                            <div className="space-y-1 mt-1">
+                                <p className="text-black font-light h-[12px] leading-3">Auriel James Fernandez</p>
+                                <div className="flex space-x-1"><p className="text-xs font-semibold">HAHAHAHAHAH</p><p className="text-xs font-light text-gray-600">15m</p></div>
+                            </div>
+                        </div>
+                        <div className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
+                            <Image 
+                                src={"data:image/jpeg;base64,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"}
+                                width={50}
+                                height={50}
+                                alt="profile"
+                                className="w-[50px] h-[50px] object-contain rounded-full items-center"
+                            />
+                            <div className="space-y-1 mt-1">
+                                <p className="text-black font-light h-[12px] leading-3">Auriel James Fernandez</p>
+                                <div className="flex space-x-1"><p className="text-xs font-semibold">HAHAHAHAHAH</p><p className="text-xs font-light text-gray-600">15m</p></div>
                             </div>
                         </div>
                         <div className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
