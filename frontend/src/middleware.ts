@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
+import { useAuth } from './hooks/useAuth';
 
-const isAuthenticated: boolean = false;
+
+const isAuthenticated = useAuth();
 
 export function middleware(request: Request){
     if(!isAuthenticated){
@@ -10,5 +12,5 @@ export function middleware(request: Request){
 }
 
 export const config = {
-    matcher: ['/', '/profile'],
+    matcher: ['/', '/profile','/home'],
 }
