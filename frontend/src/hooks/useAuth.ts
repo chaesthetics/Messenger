@@ -1,10 +1,6 @@
 'use client'
 import axios from "axios";
 import { useState } from "react";
-import { useEffect } from "react";
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
-
 
 const baseURL = 'http://127.0.0.1:8000';
 
@@ -34,28 +30,15 @@ export const signIn = async(email: string, password: string) : Promise<{status: 
     }
 }
 
-export const getToken = (): string | null => {
-    return localStorage.getItem('token');
-  };
-  
-
-export const useAuth = () => {
-    const router = useRouter();
-    const currentPath = usePathname();
-
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    
-    useEffect(()=>{
-        const checkAuthentication = async () => {
-            const isAuthenticated = !!getToken(); // Convert the token value to a boolean
-            if (!isAuthenticated && !(currentPath == '/auth/login' || currentPath == '/auth/signup')) {
-              router.push('/auth/login');
-            }
-            setIsAuthenticated(isAuthenticated); // Update the state with the authentication status
-        };
-      
-        checkAuthentication();
-    }, [router, currentPath]);
-
+export default function useAuth(){
+    var isAuthenticated = false;
+    if(typeof window !== 'undefined'){
+        const token = localStorage.getItem('token');
+        if(!!token){
+            isAuthenticated = true;
+        }else{
+            isAuthenticated = false;
+        }
+    }
     return { isAuthenticated };
-};
+}
