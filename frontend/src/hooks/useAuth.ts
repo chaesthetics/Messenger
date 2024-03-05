@@ -1,4 +1,6 @@
-'use client'
+
+'use server'
+import { cookies } from 'next/headers'
 import axios from "axios";
 import { useState } from "react";
 
@@ -20,7 +22,7 @@ export const signIn = async(email: string, password: string) : Promise<{status: 
     try{
         const response = await axios.post(`${baseURL}/api/signin`, {email, password});
         const {status, message, token} = response.data;
-        localStorage.setItem('token', token);
+        cookies().set('token', token);
         return {status, message, token};
     }catch(error: any){
         const status = typeof error === 'number' ? error : error?.response?.data.status || 500;
@@ -28,17 +30,4 @@ export const signIn = async(email: string, password: string) : Promise<{status: 
         const token = null;
         return {status, message, token};
     }
-}
-
-export default function useAuth(){
-    var isAuthenticated = false;
-    if(typeof window !== 'undefined'){
-        const token = localStorage.getItem('token');
-        if(!!token){
-            isAuthenticated = true;
-        }else{
-            isAuthenticated = false;
-        }
-    }
-    return { isAuthenticated };
 }
