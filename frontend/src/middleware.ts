@@ -1,12 +1,12 @@
-'use client'
+'use server'
 import { NextResponse } from 'next/server';
-import { useEffect } from 'react'; 
-import useAuth from './hooks/useAuth';
+import { cookies } from 'next/headers'
 
 export function middleware(request: Request){
-    const {isAuthenticated} = useAuth();
-    console.log("Authenticated ba? ",isAuthenticated);
-    if(!isAuthenticated){
+
+    const token = cookies().get('token');
+
+    if(!token){
         return NextResponse.redirect(new URL('/login', request.url));
     }
     return NextResponse.next();
