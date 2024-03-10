@@ -1,17 +1,26 @@
-'use server'
-import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers'
+'use client'
 
-export function middleware(request: Request){
+import { NextResponse, NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
 
-    const token = cookies().get('token');
+export function middleware(request: NextRequest){
 
-    if(!token){
+    const token = !!cookies().get('token');
+   
+    if(token){
+        if(request.nextUrl.pathname =='/login' || request.nextUrl.pathname =='/signup'){
+            return NextResponse.redirect(new URL('/home', request.url));
+        }else{
+            return NextResponse.next();
+        }
+    }else{
+        if(request.nextUrl.pathname == '/login' || request.nextUrl.pathname == '/signup'){
+            return NextResponse.next();
+        }
         return NextResponse.redirect(new URL('/login', request.url));
     }
-    return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/', '/profile','/home'],
+    matcher: ['/', '/profile','/home','/login', '/signup'],
 }
