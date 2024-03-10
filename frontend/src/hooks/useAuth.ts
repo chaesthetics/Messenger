@@ -1,3 +1,6 @@
+
+'use server'
+import { cookies } from 'next/headers'
 import axios from "axios";
 import { useState } from "react";
 
@@ -15,6 +18,16 @@ export const signUp = async(firstname: string, lastname: string, email: string, 
     }
 }
 
-// export const useAuth = () => {
-//     if(localStorage.getItem("token") !== null)
-// }
+export const signIn = async(email: string, password: string) : Promise<{status: number, message: string, token: string | null}> => {
+    try{
+        const response = await axios.post(`${baseURL}/api/signin`, {email, password});
+        const {status, message, token} = response.data;
+        cookies().set('token', token);
+        return {status, message, token};
+    }catch(error: any){
+        const status = typeof error === 'number' ? error : error?.response?.data.status || 500;
+        const message = typeof error === 'string' ? error : error?.response?.data.message || 'An error occured';
+        const token = null;
+        return {status, message, token};
+    }
+}
