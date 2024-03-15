@@ -17,6 +17,10 @@ export default function homepage(){
         setPreChat("");
     }
 
+    const content = (
+        <div>HEllo world</div>
+    )
+
     return(
         <div className="h-screen w-screen grid grid-cols-12 overflow-hidden">
             <div className="grid grid-cols-7 sideBar col-span-4 border-r-[1px] border-gray-200">
