@@ -1,8 +1,16 @@
+'use client'
 import React from "react";
 import Image from 'next/image';
-import { Button, Popover } from 'flowbite-react';
+import { Popover } from 'flowbite-react';
+import { logOut } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 const SideBar = () => {
+    const router = useRouter();
+    const handleLogOut = () => {
+        logOut();
+        router.push('/');
+    }
     const logoutNav = (
         <div className="w-[22rem] px-1 py-1 rounded shadow-2xl">
             <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
@@ -57,6 +65,19 @@ const SideBar = () => {
                     <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path d="M8 10a1 1 0 0 0-1 1v.5a1 1 0 0 0 1 1h20a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1H8zM7 17.75a1 1 0 0 1 1-1h20a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-.5zM7 24.5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-.5z"></path></svg>
                 </div>
                 <h1 className="text-black font-medium text-[15px]">Cookie policy</h1>
+            </div>
+            <hr className="w-11/12 mt-1 mb-1 border-gray-300 mr-auto ml-auto"></hr>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 17.944C6.75 11.674 11.662 7.03 18 7.03c6.337 0 11.25 4.642 11.25 10.913 0 6.27-4.913 10.912-11.25 10.912-1.138 0-2.23-.15-3.257-.432a.897.897 0 0 0-.6.044l-2.233.986a.9.9 0 0 1-1.263-.796l-.062-2.002a.898.898 0 0 0-.302-.64c-2.189-1.958-3.533-4.792-3.533-8.072zm7.8-2.052-3.306 5.243c-.317.503.302 1.07.776.71l3.55-2.693a.675.675 0 0 1 .812-.003l2.629 1.972a1.687 1.687 0 0 0 2.44-.45l3.305-5.244c.317-.503-.302-1.07-.776-.71l-3.55 2.694a.675.675 0 0 1-.813.002l-2.628-1.971a1.687 1.687 0 0 0-2.44.45z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Try Messenger for Windows</h1>
+            </div>
+            <div onClick={handleLogOut} className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path d="M21.498 14.75a1 1 0 0 0 1-1V12a4 4 0 0 0-4-4h-6.5a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h6.5a4 4 0 0 0 4-4v-1.75a1 1 0 0 0-1-1h-.5a1 1 0 0 0-1 1V24a1.5 1.5 0 0 1-1.5 1.5h-6.5a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5h6.5a1.5 1.5 0 0 1 1.5 1.5v1.75a1 1 0 0 0 1 1h.5z"></path><path d="M14.498 16.75h9.752a.25.25 0 0 0 .25-.25v-1.858a1 1 0 0 1 1.643-.766l4.002 3.356a1 1 0 0 1 0 1.532l-4.002 3.357a1 1 0 0 1-1.643-.767V19.5a.25.25 0 0 0-.25-.25h-9.752a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Log out</h1>
             </div>
         </div>
     )
@@ -113,7 +134,7 @@ return(
                 </div>
                 <div>
                     <Popover content={logoutNav} placement="top" trigger="click">
-                        <div className="flex w-full hover:cursor-pointer transition-200 animation-300 duration-300 items-center justify-center">
+                        <div className="flex w-full hover:brightness-[70%] hover:cursor-pointer transition-200 animation-300 duration-300 items-center justify-center">
                             <Image 
                                 src={"data:image/jpeg;base64,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"}
                                 width={30}
