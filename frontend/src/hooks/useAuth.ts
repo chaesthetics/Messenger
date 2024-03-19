@@ -1,8 +1,6 @@
-
 'use server'
 import { cookies } from 'next/headers'
 import axios from "axios";
-import { useState } from "react";
 
 const baseURL = 'http://127.0.0.1:8000';
 
@@ -30,4 +28,8 @@ export const signIn = async(email: string, password: string) : Promise<{status: 
         const token = null;
         return {status, message, token};
     }
+}
+
+export const logOut = () => {
+    cookies().delete('token');
 }
