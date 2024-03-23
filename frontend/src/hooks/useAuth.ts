@@ -33,3 +33,13 @@ export const signIn = async(email: string, password: string) : Promise<{status: 
 export const logOut = () => {
     cookies().delete('token');
 }
+
+export const getAllUser = async()=> {
+    try{
+        const response = await axios.get(`${baseURL}/api/getUsers`);
+        return response.data.data;
+    }catch(error:any){
+        const data = typeof error=== 'string' ? error : error?.response?.data.message || 'An error occured';
+        return {data};
+    }
+}
