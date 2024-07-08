@@ -1,8 +1,6 @@
-
 'use server'
 import { cookies } from 'next/headers'
 import axios from "axios";
-import { useState } from "react";
 
 const baseURL = 'http://127.0.0.1:8000';
 
@@ -29,5 +27,19 @@ export const signIn = async(email: string, password: string) : Promise<{status: 
         const message = typeof error === 'string' ? error : error?.response?.data.message || 'An error occured';
         const token = null;
         return {status, message, token};
+    }
+}
+
+export const logOut = () => {
+    cookies().delete('token');
+}
+
+export const getAllUser = async()=> {
+    try{
+        const response = await axios.get(`${baseURL}/api/getUsers`);
+        return response.data.data;
+    }catch(error:any){
+        const data = typeof error=== 'string' ? error : error?.response?.data.message || 'An error occured';
+        return {data};
     }
 }

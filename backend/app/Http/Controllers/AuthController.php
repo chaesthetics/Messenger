@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserCollection;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Http\Response;
 use App\Models\User;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -59,6 +61,10 @@ class AuthController extends Controller
                 'message' => $th->getMessage(),
             ], Response::HTTP_METHOD_NOT_ALLOWED);
         }
-       
+    }
+
+    public function getUsers(Request $request)
+    {
+        return UserResource::collection(User::all());
     }
 }
