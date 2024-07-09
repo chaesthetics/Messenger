@@ -6,7 +6,6 @@ import { cookies } from 'next/headers';
 export function middleware(request: NextRequest){
 
     const token = !!cookies().get('token');
-   
     if(token){
         if(request.nextUrl.pathname =='/login' || request.nextUrl.pathname =='/signup'){
             return NextResponse.redirect(new URL('/home', request.url));

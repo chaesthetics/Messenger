@@ -16,17 +16,20 @@ export const signUp = async(firstname: string, lastname: string, email: string, 
     }
 }
 
-export const signIn = async(email: string, password: string) : Promise<{status: number, message: string, token: string | null}> => {
+export const signIn = async(email: string, password: string) : Promise<{status: number, message: string, token: string | null, userData: Object | null}> => {
     try{
         const response = await axios.post(`${baseURL}/api/signin`, {email, password});
-        const {status, message, token} = response.data;
+        const {status, message, token, userData} = response.data;
         cookies().set('token', token);
-        return {status, message, token};
+        
+        return {status, message, token, userData};
     }catch(error: any){
         const status = typeof error === 'number' ? error : error?.response?.data.status || 500;
         const message = typeof error === 'string' ? error : error?.response?.data.message || 'An error occured';
         const token = null;
-        return {status, message, token};
+        const userData = null;
+
+        return {status, message, token, userData};
     }
 }
 

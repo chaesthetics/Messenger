@@ -42,11 +42,12 @@ class AuthController extends Controller
     {
         try{
             $token = $this->authService->login($request->all());
-
+            $user = User::where('email', $request->email)->first();
             if(gettype($token)=='string'){
                 return response()->json([
                     'status' => Response::HTTP_OK,
                     'message' => 'Logged In Successfully',
+                    'userData' => $user,
                     'token'=>$token,
                 ], Response::HTTP_OK);
             }else{
