@@ -25,6 +25,7 @@ export default function homepage(){
     }
 
 
+
     useEffect(()=>{
         const userBarUI = users.map((user)=>{
             return <div onClick={()=>handleConvoSelection(user)} key={user.id} className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
@@ -46,13 +47,13 @@ export default function homepage(){
     
     const [prechat, setPreChat] = useState<string>("");
 
-    const handlePrechat = (event:any) => {
+    const handlePrechat = (event:any, receiver_id) => {
         setPreChat(event.target.value);
     }
 
     const handleChat = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log("You:",prechat);
+        console.log(prechat, selectedConvo.id);
         setPreChat("");
     }
 
