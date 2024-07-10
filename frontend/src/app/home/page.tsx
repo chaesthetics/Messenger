@@ -24,8 +24,6 @@ export default function homepage(){
         setSelectedConvo(userSelected);
     }
 
-
-
     useEffect(()=>{
         const userBarUI = users.map((user)=>{
             return <div onClick={()=>handleConvoSelection(user)} key={user.id} className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
