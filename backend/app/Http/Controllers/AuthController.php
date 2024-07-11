@@ -10,6 +10,7 @@ use App\Services\AuthService;
 use Illuminate\Http\Response;
 use App\Models\User;
 use App\Http\Resources\UserResource;
+use App\Models\Conversation;
 
 class AuthController extends Controller
 {

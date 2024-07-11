@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-class Conversation extends Model
+
+class Message extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'conversation_id',
         'sender_id',
-        'receiver_id',
+        'content',
     ];
 
-    public function users()
+    public function conversation()
     {
-        return $this->belongsToMany(User::class);
+        $this->belongsTo(Conversation::class);
     }
-
 }
