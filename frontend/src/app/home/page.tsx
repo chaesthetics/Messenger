@@ -2,46 +2,76 @@
 import React, { use, useEffect, useState } from "react";
 import SideBar from "@/components/sidebar";
 import Image from 'next/image';
-import { getAllUser } from "@/hooks/useAuth";
+import { getAllUser, getConversations } from "@/hooks/useAuth";
 
 export default function homepage(){
 
     const [users, setUsers] = useState([]);
     const [userBar, setUserBar] = useState([<></>]);
+    const [chatList, setChatList] = useState([]);
+    const [convoBar, setConvoBar] = useState([<></>]);
     const [selectedConvo, setSelectedConvo] = useState({});
 
     const initialUsers = async() => {
         const userData = await getAllUser();
         setUsers(userData);
-        setSelectedConvo(userData[0]);
+    }
+
+    const initialConversation = async() => {
+        const userinfo = JSON.parse(localStorage.getItem('userInfo'));
+        const userinfoId = userinfo.id;
+        const convoData = await getConversations(userinfoId);
+        console.log("Response: ", convoData);
+        setChatList(convoData);
+        setSelectedConvo(convoData[0]);
     }
 
     useEffect(()=>{
         initialUsers();
+        initialConversation();
     },  []);
 
-    const handleConvoSelection = (userSelected: any) => {
-        setSelectedConvo(userSelected);
+    const handleConvoSelection = (selectedChat: any) => {
+        setSelectedConvo(selectedChat);
     }
 
     useEffect(()=>{
-        const userBarUI = users.map((user)=>{
-            return <div onClick={()=>handleConvoSelection(user)} key={user.id} className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
-                <Image 
-                    src={user.avatar===null ? "data:image/jpeg;base64,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" : user.avatar}
-                    width={50}
-                    height={50}
-                    alt="profile"
-                    className="w-[50px] h-[50px] object-cover rounded-full items-center"
-                />
-                <div className="space-y-1 mt-1">
-                    <p className="text-black font-light h-[12px] leading-3">{`${user.firstname} ${user.lastname}`}</p>
-                    <div className="flex space-x-1"><p className="text-xs font-semibold">Start a conversation</p><p className="text-xs font-light text-gray-600">1min ago</p></div>
-                </div>
+        const conversationBar = chatList.map((chat, index)=>{
+            return <div onClick={()=>handleConvoSelection(chat)} key={chat.id} className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
+            <Image 
+                src={chat.chatwith.avatar===null ? "data:image/jpeg;base64,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" : chat.chatwith.avatar}
+                width={50}
+                height={50}
+                alt="profile"
+                className="w-[50px] h-[50px] object-cover rounded-full items-center"
+            />
+            <div className="space-y-1 mt-1">
+                <p className="text-black font-light h-[12px] leading-3">{`${chat.chatwith.firstname} ${chat.chatwith.lastname}`}</p>
+                <div className="flex space-x-1"><p className="text-xs font-semibold">Start a conversation</p><p className="text-xs font-light text-gray-600">1min ago</p></div>
             </div>
+        </div>
         });
-        setUserBar(userBarUI);
-    }, [users]);
+        setConvoBar(conversationBar);
+    }, [chatList]);
+        
+    // useEffect(()=>{
+    //     const userBarUI = users.map((user)=>{
+    //         return <div onClick={()=>handleConvoSelection(user)} key={user.id} className="flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center">
+    //             <Image 
+    //                 src={user.avatar===null ? "data:image/jpeg;base64,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" : user.avatar}
+    //                 width={50}
+    //                 height={50}
+    //                 alt="profile"
+    //                 className="w-[50px] h-[50px] object-cover rounded-full items-center"
+    //             />
+    //             <div className="space-y-1 mt-1">
+    //                 <p className="text-black font-light h-[12px] leading-3">{`${user.firstname} ${user.lastname}`}</p>
+    //                 <div className="flex space-x-1"><p className="text-xs font-semibold">Start a conversation</p><p className="text-xs font-light text-gray-600">1min ago</p></div>
+    //             </div>
+    //         </div>
+    //     });
+    //     setUserBar(userBarUI);
+    // }, [users]);
     
     const [prechat, setPreChat] = useState<string>("");
 
@@ -54,7 +84,7 @@ export default function homepage(){
         console.log(prechat, selectedConvo.id);
         setPreChat("");
     }
-
+    
     return(
         <div className="h-screen w-screen grid grid-cols-12 overflow-hidden">
             <div className="grid grid-cols-7 sideBar col-span-4 border-r-[1px] border-gray-200">
@@ -75,7 +105,7 @@ export default function homepage(){
                     </div>
                     </div>
                     <div className="flex flex-col w-full items-center">
-                        {userBar}
+                        {convoBar}
                     </div>
                 </div>
             </div>
@@ -83,13 +113,13 @@ export default function homepage(){
                 <div className="flex h-[60px] min-h-[60px] border-b-[1px] bg-white shadow-sm px-2 items-center justify-between">
                     <div className="flex space-x-2 items-center hover:bg-gray-100 px-2 py-2 hover:cursor-pointer transition-200 duration-300 animation-300 rounded-md">
                         <Image 
-                            src={selectedConvo.avatar===null ? "data:image/jpeg;base64,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" : selectedConvo.avatar}
+                            src={selectedConvo.chatwith?.avatar===null ? "data:image/jpeg;base64,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" : selectedConvo?.chatwith?.avatar}
                             width={35}
                             height={35}
                             alt="profile"
                             className="w-[35px] h-[35px] object-cover rounded-full items-center"
                         />
-                        <p className="text-sm font-semibold text-neutral-700 ">{`${selectedConvo.firstname} ${selectedConvo.lastname}`}</p>
+                        <p className="text-sm font-semibold text-neutral-700 ">{`${selectedConvo.chatwith?.firstname} ${selectedConvo.chatwith?.lastname}`}</p>
                     </div>
                     <div className="flex items-center space-x-6">
                         <div className="flex hover:bg-gray-200 hover:cursor-pointer transition-200 duration-300 animation-300 rounded-full h-[34px] w-[34px] items-center justify-center">
@@ -107,13 +137,13 @@ export default function homepage(){
                     <div className="flex w-full justify-between pt-12 flex-col h-full overflow-y-scroll ">
                         <div className="flex items-center mt-10 flex-col pb-10">
                             <Image 
-                                src={selectedConvo.avatar===null ? "data:image/jpeg;base64,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" : selectedConvo.avatar}
+                                src={selectedConvo.chatwith?.avatar===null ? "data:image/jpeg;base64,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" : selectedConvo.chatwith?.avatar}
                                 width={60}
                                 height={60}
                                 alt="profile"
                                 className="w-[60px] h-[60px] object-cover rounded-full items-center hover:cursor-pointer"
                             />
-                            <p className="hover:cursor-pointer text-lg font-semibold pt-1">{`${selectedConvo.firstname} ${selectedConvo.lastname}`}</p>
+                            <p className="hover:cursor-pointer text-lg font-semibold pt-1">{`${selectedConvo.chatwith?.firstname} ${selectedConvo.chatwith?.lastname}`}</p>
                             <p className="hover:cursor-pointer hover:underline text-xs text-gray-700 leading-5">Facebook</p>
                             <p className="hover:cursor-pointer hover:underline text-xs text-gray-700 leading-5">You're friends on Facebook</p>
                             <p className="hover:cursor-pointer hover:underline text-xs text-gray-700 leading-5">Lives in Makati City</p>
