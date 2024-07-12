@@ -56,3 +56,12 @@ export const getConversations = async(userinfoId:number) => {
         return error;
     }
 }
+
+export const getMessages = async(conversation_id:number) => {
+    try{
+        const response = await axios.post(`${baseURL}/api/getMessages`, { "conversation_id" : conversation_id});
+        return response.data.messages;
+    }catch(error:any){
+        return error;
+    }
+}
