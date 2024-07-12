@@ -18,7 +18,7 @@ const SideBar = () => {
         router.push('/');
     }
     const logoutNav = (
-        <div className="w-[22rem] px-1 py-1 rounded shadow-2xl">
+        <div className="w-[22rem] px-1 py-1 rounded shadow">
             <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
                 <div className="bg-slate-100 rounded-full px-1 py-1">
                     <svg aria-hidden="true" height="24" width="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" viewBox="0 0 36 36"><path clip-rule="evenodd" d="M16.162 7.624a3 3 0 0 1 3.676 0l9.642 7.473a1.342 1.342 0 0 1-.822 2.403H27.25a.25.25 0 0 0-.25.25v8.75a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2v-8.75a.25.25 0 0 0-.25-.25H7.342a1.342 1.342 0 0 1-.822-2.403l9.642-7.473Zm3.532 10.852c-.203.139-.314.387-.242.622l1.514 4.932a.75.75 0 0 1-.718.97h-4.497a.75.75 0 0 1-.717-.97l1.514-4.932c.072-.235-.04-.483-.242-.622a3 3 0 1 1 3.388 0Z" fill-rule="evenodd"></path></svg>

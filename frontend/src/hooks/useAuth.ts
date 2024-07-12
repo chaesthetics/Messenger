@@ -21,6 +21,7 @@ export const signIn = async(email: string, password: string) : Promise<{status: 
         const response = await axios.post(`${baseURL}/api/signin`, {email, password});
         const {status, message, token, userData} = response.data;
         cookies().set('token', token);
+        cookies().set('userId', userData.id);
         
         return {status, message, token, userData};
     }catch(error: any){
@@ -44,5 +45,14 @@ export const getAllUser = async()=> {
     }catch(error:any){
         const data = typeof error=== 'string' ? error : error?.response?.data.message || 'An error occured';
         return {data};
+    }
+}
+
+export const getConversations = async(userinfoId:number) => {
+    try{
+        const response = await axios.post(`${baseURL}/api/getConversations`, { "user_id" : userinfoId });
+        return response.data.conversations;
+    }catch(error:any){
+        return error;
     }
 }
