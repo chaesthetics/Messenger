@@ -21,6 +21,7 @@ Route::post('/signin', [AuthController::class, 'login']);
 Route::get('/getUsers', [AuthController::class, 'getUsers']);
 Route::post('/createConvo', [ConversationController::class, 'createConvo']);
 Route::post('/createMessage', [MessageController::class, 'createMessage']);
+Route::post('/getMessages', [MessageController::class, 'getMessages']);
 
 Route::post('/getConversations', [ConversationController::class, 'getConversations']);
 
