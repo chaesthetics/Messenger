@@ -14,7 +14,7 @@ const Message = (props:any) => {
     return <div className="flex pb-4 px-3 space-x-2">
         <div className="flex items-end pb-1">
             <Image 
-                src={message.sender?.avatar}
+                src={message.user?.avatar}
                 width={28}
                 height={28}
                 alt="profile"

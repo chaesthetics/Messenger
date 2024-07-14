@@ -48,19 +48,32 @@ export const getAllUser = async()=> {
     }
 }
 
-export const getConversations = async(userinfoId:number) => {
+export const getConversations = async(userinfo_id: number) => {
     try{
-        const response = await axios.post(`${baseURL}/api/getConversations`, { "user_id" : userinfoId });
+        const response = await axios.get(`${baseURL}/api/getConversations/${userinfo_id}`);
         return response.data.conversations;
     }catch(error:any){
         return error;
     }
 }
 
-export const getMessages = async(conversation_id:number) => {
+export const getMessages = async(conversation_id: number) => {
     try{
-        const response = await axios.post(`${baseURL}/api/getMessages`, { "conversation_id" : conversation_id});
+        const response = await axios.get(`${baseURL}/api/getMessages/${conversation_id}`);
         return response.data.messages;
+    }catch(error:any){
+        return error;
+    }
+}
+
+export const createMessage = async(conversation_id: any, sender_id: number, content: string) => {
+    try{
+        const response = await axios.post(`${baseURL}/api/createMessage`, {
+            "conversation_id" : conversation_id,
+            "sender_id" : sender_id,
+            "content" : content
+        })
+        return response.data;
     }catch(error:any){
         return error;
     }
