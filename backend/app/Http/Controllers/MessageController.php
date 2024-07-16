@@ -31,10 +31,12 @@ class MessageController extends Controller
     public function getMessages(Request $request)
     {
         try{
-            $messages = Message::where('conversation_id', '=', $request->conversation_id)->get();
-            foreach($messages as $message){
-                $message->sender = User::find($message->sender_id);
-            }
+            $messages = Message::where('conversation_id', '=', $request->conversation_id)
+                                ->with('user')
+                                ->get();
+            // foreach($messages as $message){
+            //     $message->sender = User::find($message->sender_id);
+            // }
             return response()->json([
                 'status' => 'success',
                 'messages' => $messages,

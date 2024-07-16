@@ -39,10 +39,11 @@ class ConversationController extends Controller
     public function getConversations(Request $request)
     {
         try{
-            $conversations = Conversation::where('sender_id', '=', $request->user_id)->orWhere('receiver_id', '=', $request->user_id)->get();
+            $conversations = Conversation::where('sender_id', '=', $request->userinfo_id)->orWhere('receiver_id', '=', $request->userinfo_id)
+            ->get();
             foreach($conversations as $conversation ){
                 $chatwith = 0; 
-                if($conversation->sender_id === $request->user_id){
+                if($conversation->sender_id == $request->userinfo_id){
                     $chatwith = $conversation->receiver_id;
                 }else{
                     $chatwith = $conversation->sender_id;
