@@ -44,4 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class)->with('users');
+    }
+
+    public function message()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

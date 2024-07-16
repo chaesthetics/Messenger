@@ -1,7 +1,92 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import Image from 'next/image';
+import { Popover } from 'flowbite-react';
+import { logOut } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 const SideBar = () => {
+    const router = useRouter();
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+    const [userAvatar, setUserAvatar] = useState(userInfo.avatar);
+
+    const handleLogOut = () => {
+        logOut();
+        localStorage.removeItem('userInfo');
+        router.push('/');
+    }
+    const logoutNav = (
+        <div className="w-[22rem] px-1 py-1 rounded shadow">
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg aria-hidden="true" height="24" width="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" viewBox="0 0 36 36"><path clip-rule="evenodd" d="M16.162 7.624a3 3 0 0 1 3.676 0l9.642 7.473a1.342 1.342 0 0 1-.822 2.403H27.25a.25.25 0 0 0-.25.25v8.75a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2v-8.75a.25.25 0 0 0-.25-.25H7.342a1.342 1.342 0 0 1-.822-2.403l9.642-7.473Zm3.532 10.852c-.203.139-.314.387-.242.622l1.514 4.932a.75.75 0 0 1-.718.97h-4.497a.75.75 0 0 1-.717-.97l1.514-4.932c.072-.235-.04-.483-.242-.622a3 3 0 1 1 3.388 0Z" fill-rule="evenodd"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">View security alerts</h1>
+            </div>
+            <hr className="w-11/12 mt-1 mb-1 border-gray-300 mr-auto ml-auto"></hr>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.842 7.526A1.5 1.5 0 0 0 18.419 6.5h-.838a1.5 1.5 0 0 0-1.423 1.026l-.352 1.056c-.157.472-.541.827-1.006 1.003a8.93 8.93 0 0 0-.487.202c-.453.204-.976.225-1.42.002l-.997-.498a1.5 1.5 0 0 0-1.732.281l-.592.592a1.5 1.5 0 0 0-.28 1.732l.497.996c.223.445.202.968-.002 1.421-.072.16-.139.323-.202.487-.176.465-.531.849-1.003 1.006l-1.056.352A1.5 1.5 0 0 0 6.5 17.581v.838a1.5 1.5 0 0 0 1.026 1.423l1.056.352c.472.157.827.541 1.003 1.006.063.164.13.327.202.487.204.453.225.976.002 1.42l-.498.997a1.5 1.5 0 0 0 .281 1.732l.593.592a1.5 1.5 0 0 0 1.73.28l.998-.497c.444-.223.967-.202 1.42.002.16.072.323.139.487.202.465.176.849.531 1.006 1.003l.352 1.056a1.5 1.5 0 0 0 1.423 1.026h.838a1.5 1.5 0 0 0 1.423-1.026l.352-1.056c.157-.472.541-.827 1.006-1.003.164-.063.327-.13.486-.202.454-.204.977-.225 1.421-.002l.997.498a1.5 1.5 0 0 0 1.732-.281l.592-.592a1.5 1.5 0 0 0 .28-1.732l-.497-.996c-.223-.445-.202-.968.002-1.421.072-.16.139-.323.202-.487.176-.465.531-.849 1.003-1.006l1.056-.352a1.5 1.5 0 0 0 1.026-1.423v-.838a1.5 1.5 0 0 0-1.026-1.423l-1.056-.352c-.472-.157-.827-.541-1.003-1.006a8.991 8.991 0 0 0-.202-.487c-.204-.453-.225-.976-.002-1.42l.498-.997a1.5 1.5 0 0 0-.281-1.732l-.593-.592a1.5 1.5 0 0 0-1.73-.28l-.998.497c-.444.223-.967.202-1.42-.002a8.938 8.938 0 0 0-.487-.202c-.465-.176-.849-.531-1.006-1.003l-.352-1.056zM18 23.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Preferences</h1>
+            </div>
+            <hr className="w-11/12 mt-1 mb-1 border-gray-300 mr-auto ml-auto"></hr>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path d="M7.705 28.41c-.19-.467.087-.97.444-1.327L27.867 7.366a1.25 1.25 0 1 1 1.768 1.768l-1.818 1.817c-.34.34-.384.87-.148 1.29C28.525 13.758 29 15.541 29 17.5v.003c-.001 6.103-4.607 10.57-11 10.57-1.066 0-2.08-.095-3.033-.327a4.26 4.26 0 0 0-2.39.09L8.91 28.962c-.36.099-.957.054-1.205-.552zM22.184 7.697C20.913 7.244 19.506 7 18 7 11.607 7 7 11.396 7 17.498v.002c0 1.689.27 3.245.884 4.615a.927.927 0 0 0 1.474.22L22.476 9.215c.481-.48.35-1.29-.292-1.52z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Restricted</h1>
+            </div>
+            <hr className="w-11/12 mt-1 mb-1 border-gray-300 mr-auto ml-auto"></hr>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg aria-hidden="true" height="24" width="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" viewBox="0 0 36 36"><path clip-rule="evenodd" d="M16.162 7.624a3 3 0 0 1 3.676 0l9.642 7.473a1.342 1.342 0 0 1-.822 2.403H27.25a.25.25 0 0 0-.25.25v8.75a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2v-8.75a.25.25 0 0 0-.25-.25H7.342a1.342 1.342 0 0 1-.822-2.403l9.642-7.473Zm3.532 10.852c-.203.139-.314.387-.242.622l1.514 4.932a.75.75 0 0 1-.718.97h-4.497a.75.75 0 0 1-.717-.97l1.514-4.932c.072-.235-.04-.483-.242-.622a3 3 0 1 1 3.388 0Z" fill-rule="evenodd"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Privacy & safety</h1>
+            </div>
+            <hr className="w-11/12 mt-1 mb-1 border-gray-300 mr-auto ml-auto"></hr>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path fill-rule="evenodd" clip-rule="evenodd" d="M18 29c6.075 0 11-4.925 11-11S24.075 7 18 7 7 11.925 7 18s4.925 11 11 11zm-1.311-15.93c-.314.192-.585.482-.832.892a1 1 0 0 1-1.713-1.032c.365-.606.844-1.164 1.502-1.566.663-.406 1.446-.614 2.354-.614 2.396 0 4.5 1.565 4.5 4 0 1.865-1.227 2.827-2.065 3.483l-.067.053c-.913.717-1.368 1.13-1.368 1.964a1 1 0 1 1-2 0c0-1.865 1.227-2.827 2.065-3.483l.067-.053c.913-.717 1.368-1.13 1.368-1.964 0-1.043-.896-2-2.5-2-.592 0-1.003.132-1.311.32zM19.25 24a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Help</h1>
+            </div>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.747 8.027c-.764-1.367-2.73-1.367-3.494 0L6.757 25.025C6.012 26.358 6.977 28 8.504 28h18.992c1.528 0 2.492-1.642 1.747-2.975L19.747 8.027zm-3.159 5.97a1.414 1.414 0 1 1 2.824 0l-.353 6.005a1.06 1.06 0 0 1-2.118 0l-.353-6.005zm2.662 9.753a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Report a problem</h1>
+            </div>
+            <hr className="w-11/12 mt-1 mb-1 border-gray-300 mr-auto ml-auto"></hr>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path d="M8 10a1 1 0 0 0-1 1v.5a1 1 0 0 0 1 1h20a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1H8zM7 17.75a1 1 0 0 1 1-1h20a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-.5zM7 24.5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-.5z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Help</h1>
+            </div>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path d="M8 10a1 1 0 0 0-1 1v.5a1 1 0 0 0 1 1h20a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1H8zM7 17.75a1 1 0 0 1 1-1h20a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-.5zM7 24.5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-.5z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Cookie policy</h1>
+            </div>
+            <hr className="w-11/12 mt-1 mb-1 border-gray-300 mr-auto ml-auto"></hr>
+            <div className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 17.944C6.75 11.674 11.662 7.03 18 7.03c6.337 0 11.25 4.642 11.25 10.913 0 6.27-4.913 10.912-11.25 10.912-1.138 0-2.23-.15-3.257-.432a.897.897 0 0 0-.6.044l-2.233.986a.9.9 0 0 1-1.263-.796l-.062-2.002a.898.898 0 0 0-.302-.64c-2.189-1.958-3.533-4.792-3.533-8.072zm7.8-2.052-3.306 5.243c-.317.503.302 1.07.776.71l3.55-2.693a.675.675 0 0 1 .812-.003l2.629 1.972a1.687 1.687 0 0 0 2.44-.45l3.305-5.244c.317-.503-.302-1.07-.776-.71l-3.55 2.694a.675.675 0 0 1-.813.002l-2.628-1.971a1.687 1.687 0 0 0-2.44.45z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Try Messenger for Windows</h1>
+            </div>
+            <div onClick={handleLogOut} className="flex px-2 py-2 hover:bg-gray-100 animation-200 duration-200 transition-200 hover:cursor-pointer items-center space-x-4 rounded">
+                <div className="bg-slate-100 rounded-full px-1 py-1">
+                    <svg viewBox="0 0 36 36" fill="currentColor" width="24" height="24" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path d="M21.498 14.75a1 1 0 0 0 1-1V12a4 4 0 0 0-4-4h-6.5a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h6.5a4 4 0 0 0 4-4v-1.75a1 1 0 0 0-1-1h-.5a1 1 0 0 0-1 1V24a1.5 1.5 0 0 1-1.5 1.5h-6.5a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5h6.5a1.5 1.5 0 0 1 1.5 1.5v1.75a1 1 0 0 0 1 1h.5z"></path><path d="M14.498 16.75h9.752a.25.25 0 0 0 .25-.25v-1.858a1 1 0 0 1 1.643-.766l4.002 3.356a1 1 0 0 1 0 1.532l-4.002 3.357a1 1 0 0 1-1.643-.767V19.5a.25.25 0 0 0-.25-.25h-9.752a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1z"></path></svg>
+                </div>
+                <h1 className="text-black font-medium text-[15px]">Log out</h1>
+            </div>
+        </div>
+    )
 return(
     <div className="col-span-1 h-full border-r-[1px]">
         <div className="flex flex-col justify-center items-center py-2 px-2 h-full">
@@ -54,22 +139,17 @@ return(
                     </div>
                 </div>
                 <div>
-                    <div className="flex w-full hover:cursor-pointer transition-200 animation-300 duration-300 items-center justify-center">
-                        <Image 
-                            src={"data:image/jpeg;base64,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"}
-                            width={30}
-                            height={30}
-                            alt="profile"
-                            className="w-[30px] h-[30px] object-contain rounded-full"
-                        />
-                    </div>
-
-                    <div id="logoutNav" className="absolute bottom-[6rem] left-[.25rem] visible z-10 inline-block w-[23rem] text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xl dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
-                        <div className="px-3 py-2">
-                            <p>And here's some amazing content. It's very engaging. Right?</p>
+                    <Popover content={logoutNav} placement="top" trigger="click">
+                        <div className="flex w-full hover:brightness-[70%] hover:cursor-pointer transition-200 animation-300 duration-300 items-center justify-center">
+                            <Image 
+                                src={userAvatar===null ? "data:image/jpeg;base64,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" : userAvatar}
+                                width={30}
+                                height={30}
+                                alt="profile"
+                                className="w-[30px] h-[30px] object-cover rounded-full"
+                            />
                         </div>
-                    </div>
-
+                    </Popover>
                     <div className="flex w-full hover:bg-gray-100 hover:cursor-pointer transition-200 animation-300 duration-300 rounded-full px-2 py-3 items-center justify-center">
                         <svg viewBox="6 6 24 24" fill="rgb(64 64 64)" width="18" height="18" className="x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq" overflow="visible"><path d="M10 13.25a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75zM10 16.25a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75zM10.75 18.5a.75.75 0 0 0 0 1.5h2a.75.75 0 0 0 0-1.5h-2z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9 8a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h18a3 3 0 0 0 3-3V11a3 3 0 0 0-3-3H9zm6 3a.5.5 0 0 0-.5-.5H9a.5.5 0 0 0-.5.5v14a.5.5 0 0 0 .5.5h5.5a.5.5 0 0 0 .5-.5V11zm3-.5a.5.5 0 0 0-.5.5v14a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V11a.5.5 0 0 0-.5-.5h-9z"></path></svg>
                     </div>
