@@ -5,8 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Conversation;
 use App\Models\User;
+use App\Services\UserCRUDService;
 class ConversationController extends Controller
 {
+    private $userRepo;
+
+    public function __construct(UserCRUDService $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }   
+
     public function createConvo(Request $request)
     {
         try{
@@ -40,7 +48,7 @@ class ConversationController extends Controller
     {
         try{
             $conversations = Conversation::where('sender_id', '=', $request->userinfo_id)->orWhere('receiver_id', '=', $request->userinfo_id)
-            ->get();
+                ->get();
             foreach($conversations as $conversation ){
                 $chatwith = 0; 
                 if($conversation->sender_id == $request->userinfo_id){
@@ -61,5 +69,18 @@ class ConversationController extends Controller
                 "message" => $th->getMessage(),
             ], 500);
         }
+    }
+
+   
+
+    public function getUsers(Request $request)
+    {
+        $users = $this->userRepo->fetchAll();
+
+        return response()->json([
+            'status' => 'success',
+            'users' => $users,
+            'message' => 'fetched successfully',
+        ], 200);
     }
 }
