@@ -18,7 +18,6 @@ const logInPage = () => {
         event.preventDefault();
  
         const {status, message, token, userData} = await signIn(email, password);
-        console.log(`status: ${status} message: ${message} token: ${token} userData: ${userData?.firstname}`);
         localStorage.setItem('userInfo', JSON.stringify(userData));
         if(token){
             router.push('/home');
