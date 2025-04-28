@@ -2,7 +2,7 @@
 import { cookies } from 'next/headers'
 import axios from "axios";
 
-const baseURL = 'http://127.0.0.1:8000';
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const signUp = async(firstname: string, lastname: string, email: string, password: string): Promise<{message: string, status: number}> => {
     try{
