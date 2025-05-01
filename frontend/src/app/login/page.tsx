@@ -6,6 +6,7 @@ import Link from "next/link";
 import { signIn } from "@/hooks/useAuth";
 import { useRouter } from 'next/navigation';
 import FullPageLoader from "../components/fullpageloader";
+import Image from "next/image";
 
 const logInPage = () => {
     const router = useRouter();
