@@ -24,21 +24,20 @@ const logInPage = () => {
         }
     }
     return (
-        <div>
+        <main className="w-screen h-screen overflow-x-hidden overflow-y-auto">
             <Navbar />
-            <div className="grid grid-cols-8 w-full">
-                <div className="col-span-4 px-16 py-10 space-y-8">
-                    <div>
-                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-[100px]">Hang out</p>
-                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-[100px]">anytime, </p>
-                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[80px] leading-[100px]">anywhere</p>
+            <div className="grid grid-cols-4 md:grid-cols-8 w-full">
+                <div className="col-span-4 flex flex-col items-center w-full h-full md:px-16 py-4 md:py-10 space-y-4 md:space-y-8">
+                    <div className="text-center md:text-start">
+                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[60px] md:text-[80px] leading-[70px] md:leading-[100px]">Hang out</p>
+                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[60px] md:text-[80px] leading-[70px] md:leading-[100px]">anytime, </p>
+                        <p className="tracking-normal hover:tracking-wide hover:ml-[-4px] animation-300 duration-300 bg-gradient-to-r from-red-900 via-blue-900 to-violet-900 inline-block text-transparent bg-clip-text font-semibold text-[60px] md:text-[80px] leading-[70px] md:leading-[100px]">anywhere</p>
                     </div>
-                    <div className="text-lg text-gray-600 px-1">
-                        <p>Messenger makes it easy and fun to stay close to your</p>
-                        <p>favorite people.</p>
+                    <div className="text-lg text-gray-600 px-10 md:px-0">
+                        <p>Messenger makes it easy and fun to stay close to your favorite people.</p>
                     </div>
-                    <form onSubmit={handleSignIn}>
-                    <div className="LoginForm flex flex-col space-y-3 w-4/6 px-2 mt-[10px]">
+                    <form onSubmit={handleSignIn} className="w-full flex justify-center md:justify-start">
+                    <div className="LoginForm flex flex-col space-y-4 w-5/6 md:w-4/6 px-2 mt-[10px]">
                         <input className="bg-gray-100 text-lg font-light rounded-lg px-4 py-1 focus:outline-none focus:ring-1" 
                             placeholder="Email or phone number" 
                             type="text"
@@ -60,12 +59,12 @@ const logInPage = () => {
                     </div>
                     </form>
                 </div>
-                <div className="col-span-4 px-16 py-10 items-center flex justiy-center h-[500px] mr-10">
+                <div className="col-span-4 px-16 py-12 items-center flex justify-center h-full mr-10 hidden md:block">
                     <img src={'/default.jpg'} alt="alt" className="w-full shadow-2xl rounded-xl"/>
                 </div>
             </div>
             <Footer />
-        </div>
+        </main>
     )
 }
 
