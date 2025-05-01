@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { signUp } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import FullPageLoader from "../components/fullpageloader";
 
 export default function SignUp(){
     const router = useRouter();
@@ -25,6 +26,7 @@ export default function SignUp(){
     const [alertMessage, setAlertMessage] = useState<string>("");
     const [status, setStatus] = useState<number>(0);
     const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(()=> {
         const timer = setTimeout(() => {
@@ -35,6 +37,7 @@ export default function SignUp(){
     }, [isToastOpen]);
 
     const handleSignUp = async(event: React.FormEvent) => {
+        setIsLoading(true)
         event.preventDefault();
         if(password === confirmPassword){
             const { message, status } = await signUp(firstname, lastname, email, password);
@@ -46,14 +49,19 @@ export default function SignUp(){
             } else {
                 setIsToastOpen(true);
             }
+            setIsLoading(false);
         }else{
             setAlertMessage("Password Does not Match");
             setIsToastOpen(true);
+            setIsLoading(false);
         }
     }
 return(
     <main className="w-screen h-screen overflow-x-hidden overflow-y-auto">
         <Navbar />
+        {
+            isLoading && <FullPageLoader />
+        }   
         {
             isToastOpen && (
                 status === 201 ? 

@@ -5,6 +5,7 @@ import Footer from "@/components/footer";
 import Link from "next/link";
 import { signIn } from "@/hooks/useAuth";
 import { useRouter } from 'next/navigation';
+import FullPageLoader from "../components/fullpageloader";
 
 const logInPage = () => {
     const router = useRouter();
@@ -14,6 +15,7 @@ const logInPage = () => {
     const [alertMessage, setAlertMessage] = useState<string>("");
     const [status, setStatus] = useState<number>(0);
     const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const onEmailChange = (event:any) => setEmail(event.target.value); 
     const onPasswordChange = (event: any) => setPassword(event.target.value);
@@ -27,6 +29,7 @@ const logInPage = () => {
     }, [isToastOpen]);
 
     const handleSignIn = async(event: React.FormEvent) => {
+        setIsLoading(true);
         event.preventDefault();
 
         const {status, message, token, userData} = await signIn(email, password);
@@ -37,10 +40,14 @@ const logInPage = () => {
         if(token){
             router.push('/home');
         }
+        setIsLoading(false);
     }
     return (
         <main className="w-screen h-screen overflow-x-hidden overflow-y-auto">
             <Navbar />
+            {
+                isLoading && <FullPageLoader />
+            }   
             {
                 isToastOpen && (
                     status === 200 ? 
