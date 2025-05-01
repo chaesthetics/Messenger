@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Link from "next/link";
@@ -11,13 +11,28 @@ const logInPage = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     
+    const [alertMessage, setAlertMessage] = useState<string>("");
+    const [status, setStatus] = useState<number>(0);
+    const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+
     const onEmailChange = (event:any) => setEmail(event.target.value); 
     const onPasswordChange = (event: any) => setPassword(event.target.value);
 
+    useEffect(()=> {
+        const timer = setTimeout(() => {
+            setIsToastOpen(false);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, [isToastOpen]);
+
     const handleSignIn = async(event: React.FormEvent) => {
         event.preventDefault();
- 
+
         const {status, message, token, userData} = await signIn(email, password);
+        setAlertMessage(message);
+        setStatus(status);
+        setIsToastOpen(true);
         localStorage.setItem('userInfo', JSON.stringify(userData));
         if(token){
             router.push('/home');
@@ -26,6 +41,30 @@ const logInPage = () => {
     return (
         <main className="w-screen h-screen overflow-x-hidden overflow-y-auto">
             <Navbar />
+            {
+                isToastOpen && (
+                    status === 200 ? 
+                    <div className="absolute bg-blue-100 bg-opacity-90 border border-blue-400 text-blue-700 px-4 py-3 rounded right-2 md:right-6 top-[100px] md:top-[120px]" role="alert">
+                    <strong className="font-semibold text-sm pr-6">{alertMessage}</strong>
+                    <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setIsToastOpen(false)}>
+                        <svg className="fill-current h-6 w-6 text-blue-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <title>Close</title>
+                        <path d="M14.348 5.652a1 1 0 10-1.414-1.414L10 7.172 7.066 4.238a1 1 0 00-1.414 1.414L8.586 8.586l-2.934 2.934a1 1 0 101.414 1.414L10 10.828l2.934 2.934a1 1 0 001.414-1.414L11.414 8.586l2.934-2.934z"/>
+                        </svg>
+                    </span>
+                    </div>
+                    :
+                    <div className="absolute bg-red-100 bg-opacity-90 border border-red-400 text-red-700 px-4 py-3 rounded right-2 md:right-6 top-[100px] md:top-[120px]" role="alert">
+                    <strong className="font-semibold text-sm pr-6">{alertMessage}</strong>
+                    <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setIsToastOpen(false)}>
+                        <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <title>Close</title>
+                        <path d="M14.348 5.652a1 1 0 10-1.414-1.414L10 7.172 7.066 4.238a1 1 0 00-1.414 1.414L8.586 8.586l-2.934 2.934a1 1 0 101.414 1.414L10 10.828l2.934 2.934a1 1 0 001.414-1.414L11.414 8.586l2.934-2.934z"/>
+                        </svg>
+                    </span>
+                    </div>
+                )
+            }
             <div className="grid grid-cols-4 md:grid-cols-8 w-full">
                 <div className="col-span-4 flex flex-col items-center w-full h-full md:px-16 py-4 md:py-10 space-y-4 md:space-y-2">
                     <div className="text-center md:text-start">
