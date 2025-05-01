@@ -6,8 +6,15 @@ const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const signUp = async(firstname: string, lastname: string, email: string, password: string): Promise<{message: string, status: number}> => {
     try{
-        const response = await axios.post(`${baseURL}/api/register`, {firstname, lastname, email, password});
+        const data = {
+            "firstname": firstname,
+            "lastname": lastname,
+            "email": email,
+            "password": password,
+        }
+        const response = await axios.post(`${baseURL}/api/register`, data);
         const {message, status} = response.data;
+    
         return { message, status };
     }catch(error: any){
         const message = typeof error === 'string' ? error : error?.response?.data.message || 'An error occured'; 
