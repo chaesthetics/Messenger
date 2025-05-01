@@ -9,7 +9,7 @@ return(
         <p className="text-gray-800 hover:underline hover:cursor-pointer hidden md:block">English (US)</p>
         <p className="text-gray-800 hover:underline hover:cursor-pointer">From Meta</p>
     </div>
-)
+    )
 }
 
 export default Footer;
