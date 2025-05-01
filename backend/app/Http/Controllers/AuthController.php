@@ -21,10 +21,10 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         try{
-            $token = $this->authService->register($request->all());
+            $token = $this->authService->register($request->validated());
 
             return response()->json([
                 'status' => Response::HTTP_CREATED,
