@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Conversation;
+use App\Models\Message; 
 
 class User extends Authenticatable
 {
@@ -44,6 +46,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function (User $user) {
+            $sender = User::where('email', 'aurieljames11@gmail.com')->first();
+
+            $conversation = Conversation::create([
+                'sender_id' => $sender->id,
+                'receiver_id' => $user->id,
+            ]);
+
+            $message = Message::create([
+                'conversation_id' => $conversation->id,
+                'sender_id' => $sender->id,
+                'content' => 'Hello, Welcome to my chat app',
+            ]);
+
+            $user->save();
+        });
+    }
 
     public function conversations()
     {

@@ -6,6 +6,7 @@ const nextConfig = {
         'instagram.fmnl17-6.fna.fbcdn.net',
         'www.instagram.com',
         'instagram.fmnl17-8.fna.fbcdn.net',
+        'scontent.fmnl17-8.fna.fbcdn.net',
     ],
     },
   };

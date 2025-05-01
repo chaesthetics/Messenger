@@ -19,11 +19,11 @@ export default function homepage() {
         const userinfo = JSON.parse(localStorage.getItem('userInfo') as string);
         setUserId(userinfo?.id ?? 0);
         const convoData = await getConversations(userinfo.id);
-        const messagesData = await getMessages(1);
+        const messagesData = await getMessages(convoData[0]?.id);
         setMessage(messagesData);
         setChatList(convoData);
         setSelectedConvo(convoData[0]);
-        setselectedConvo_Id(convoData[0]?.id ?? 1);
+        setselectedConvo_Id(convoData[0]?.id);
     }
 
     useEffect(() => {
