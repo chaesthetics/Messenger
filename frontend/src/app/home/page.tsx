@@ -3,18 +3,26 @@ import React, { useEffect, useState } from "react";
 import SideBar from "@/components/sidebar";
 import Image from 'next/image';
 import Message from "@/components/message";
-import { getConversations, getMessages, createMessage } from "@/hooks/useAuth";
-import type { ChatList, ChatType } from "../types/message";
+import {
+    getConversations,
+    getMessages,
+    createMessage,
+    searchUsers
+} from "@/hooks/useAuth";
 
+import type { ChatList, ChatType } from "../types/message";
+import type { UserType } from "../types/user";
 export default function homepage() {
 
     const [chatList, setChatList] = useState<ChatList>([]);
-    const [convoBar, setConvoBar] = useState([<></>]);
     const [selectedConvo, setSelectedConvo] = useState<ChatType>({ id: 0, sender_id: 0, receiver_id: 0, created_at: '', updated_at: '', chatwith: { id: 0, firstname: '', lastname: '', email: 'sample@email', avatar: '', created_at: '', updated_at: '' } });
     const [messages, setMessage] = useState<ChatType[]>([{ id: 0, sender_id: 0, receiver_id: 0, created_at: '', updated_at: '', chatwith: { id: 0, firstname: '', lastname: '', email: 'sample@email', avatar: '', created_at: '', updated_at: '' } }]);
     const [userId, setUserId] = useState(0)
     const [selectedConvo_Id, setselectedConvo_Id] = useState(0);
     const [isConvoHidden, setIsConvoHidden] = useState(true);
+    const [search, setSearch] = useState<string>("");
+    const [searchedUsers, setSearchedUsers] = useState<UserType[] | null>([]);
+    const [isResultOpen, setIsResultOpen] = useState(false);
 
     const initialConversation = async () => {
         const userinfo = JSON.parse(localStorage.getItem('userInfo') as string);
@@ -55,15 +63,35 @@ export default function homepage() {
         setPreChat("");
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("selectedConvo", selectedConvo);
-    }, [selectedConvo])
+    }, [selectedConvo]);
+
+    const SearchUsers = async () => {
+        const response = await searchUsers(search);
+        setSearchedUsers(response);
+    }
+
+    useEffect(() => {
+        if (search === "") {
+            setIsResultOpen(false);
+        } else {
+            setIsResultOpen(true);
+        }
+        const delay = setTimeout(() => {
+            if (search.trim()) {
+                SearchUsers();
+            }
+        }, 3000);
+
+        return () => clearTimeout(delay);
+    }, [search]);
 
     return (
         <div className="h-screen w-screen flex grid-cols-12 overflow-hidden">
             <div className="flex col-span-4 col-span-1 border-r-[1px] border-gray-200">
-                <SideBar isConvoHidden={isConvoHidden} setIsConvoHidden={setIsConvoHidden}/>
-                <div className={`w-full h-screen col-span-3 overflow-y-auto pb-2 ${isConvoHidden ? "hidden md:block" : ""}`}>
+                <SideBar isConvoHidden={isConvoHidden} setIsConvoHidden={setIsConvoHidden} />
+                <div className={`w-full h-screen col-span-3 overflow-y-hidden pb-2 ${isConvoHidden ? "hidden md:block" : ""}`}>
                     <div className="sticky top-0 bg-white">
                         <div className="flex justify-between px-6 py-2 items-center">
                             <p className="font-bold text-2xl">Chats</p>
@@ -74,11 +102,59 @@ export default function homepage() {
                         <div className="flex justify-center w-full items-center relative">
                             <input className="bg-gray-100 w-11/12 placeholder-black text-sm font-light text-gray-600 py-2 px-12 rounded-full focus:outline-none"
                                 placeholder="Search Messenger"
+                                onChange={(event) => setSearch(event.target.value)}
                             />
                             <svg xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 512 512" className="w-5 h-5 absolute left-8"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" /></svg>
                         </div>
                     </div>
-                    <div className="flex flex-col w-full items-center">
+
+
+                    <div className="relative flex flex-col w-full items-center">
+                        {
+                            isResultOpen &&
+                            <div className="absolute bg-white w-full h-full">
+                                <div
+                                    className={`flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center`}
+                                >
+                                    <div className="relative">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 512 512" className="w-5 h-5 absolute top-[-10px]"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" /></svg>
+                                    </div>
+                                    <span className="px-4">Results of searching "{search}"</span>
+                                </div>
+                                {searchedUsers && searchedUsers.map((user, index) => {
+                                    const key = user?.id;
+                                    return (
+                                        <div
+                                            key={key}
+                                            // onClick={() => handleConvoSelection(user)}
+                                            className={`conversations flex mt-2 w-[370px] py-2 px-3 hover:bg-gray-100 hover:cursor-pointer duration-300 transition-300 animation-300 rounded-md space-x-4 items-center ${user?.id == selectedConvo.id ? "bg-gray-100" : ""}`}
+                                        >
+                                            <Image
+                                                src={
+                                                    user?.avatar === null
+                                                        ? "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAODhANDw0PEA0QDg8ODw0NDhAQDw0OFREXFhURExMYHSkhGBonGxMTITEhJjUrLi4uFx8zODMtOSgwLisBCgoKDQ0NDg0NDisZFRkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABQYCAwQBB//EADkQAQACAQEDCAgFBAIDAAAAAAABAgMRBSFRBAYSMUFScdETYWKBkZKxwRUiMqHhM3KCokKTI0Nz/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8mdGGfLFKze06ViNZlVtpbTvmnT9OPspx9duIJvlO2sVNYiZvPsdXxcVucM9mGPff8AhBiom45wz24Y9158nXyfbmK263SpPtRrX4wrIKvNLxMRMTExPVMTrEslO5Dy6+GdazrXtpPVPlK1ck5TXLSL1ndPZ21nhKDeAAAAAAAAAAAAAAAAAAAADTyvN6PHa/drM+/sBAbf5b07+iifyU6/Xf8AjzRL2Z1nWeud8zxl4qAAAADu2Ryz0OSNZ/JfStvVws4QF7HHsjP6TBS09cR0Z8Y3OxFAAAAAAAAAAAAAAAAAAEbzgvpyeY71qx++v2SSJ5yf0Y/+lfpIK0AqAAAAAALDzZv+S9eF4n4x/CaQXNjqy+NPunUUAAAAAAAAAAAAAAAAAAcG3MfS5Pf1aW+E7/21d7HJSLRNZ6piYnwkFGGzlGGcd7UnrrMx4x2S1qgAAAAD2tZmYiI1mZiIjjMgsfNzFphtbvXn4RGnml2nkeH0eOuPu1iPGe2fi3IoAAAAAAAAAAAAAAAAAAACH29s+bx6Wka2rGlojrtXj4wri9oXaexYvM3xaRbrmk7qzPGOEgrw2ZsNsc6XrNZ9cfSe1rVAGWOk2nStZtPCsayDFN7A5BOvp7Ruj+nE9s957s7Yk7r5ursxxv1/un7J6I03Ir0AAAAAAAAAAAAAAAAAAAAYZMkVjWZiIjrmZ0iPejuUbcxV3V1vPsxpHxkEoK5l2/kn9NKV8dbT9nPO2s/fiPClQWm9YmNJiJjhO+HLbZuGevFT3Rp9EB+M5+/HyV8j8Zz9+Pkr5An67MwR/wCqvv3/AFdOPHWsaVrFY4ViIhV/xnP34+SvkfjOfvx8lfIFrFUjbOfvx8lfJux7fyx+qtLR4TE/UFlEPg2/jndetqev9UeaTwZ65I1paLR6pBtAAAAAAAAAAAAAAB5IPdURtDbVaa1x6Xv1dL/hWfu4tr7Wm8zjxzpTqtaP+fhPD6ogG7lHKb5Z6V7TaeE9UeEdjSCoAAAAAAAAMsWS1J6VbTW3GJ0liAneQbd6q5v+yI+seScpeLRExMTE74mN8Sozt2btG2CdN845n81OHrjhKKtw14csXrFqzrWY1iWwAAAAAAAAAABDc4OW9GvoazvtGtp4U4e9Myp208vTz5Le1NY8I3fYHKAqAAAAAAAAAAAAAAJbYHLOhf0Uz+S87vZv/KyqLW0xMWjriYmPGF4xX6VYt2TET8YRWQAAAAAAAAAMMt+jW1uFZn4Qo+uu/tneuG1r9Hk+Sf36Px3fdT1AAQAAAAAAAAAAAAAAW/ZGTpYMc+z0fhu+yoLPzdvrg04XtH0n7oqUAAAAAAAAABHbfnTk9vXNI/2ifsqq0c4f6E/31VdUAAAAAAAAAAAAAAAAFi5sz/47x7ev+seSurDzY/Rk/uj6AmgEUAAAAAAABxbYxTfBkiOuIi0f4zr9lRXuVd2nsaazN8Ua165xx118OMeoEMAqAAAAAAAAAAAAAACzc3cXRw9LvXmfdGkfaUPs3Zts8674xx124+qvGVqxY4rWK1jSIjSI4QiswAAAAAAAAAAAcfLNm482+1dLd+u638oblOwcld9LReOE/lt5LKApGbBem69LV8YnT4ta9TGu5y5dm4b9eKuvGsdGf2BTxZcmwMU9Vr198TH7w5783e7m+an8qiCEvbm/k7L458elH2YTsLNxxz/lPkCLEn+B5vY+efJ7Gwc3HH80+QIsS9eb+TtvSPDpT9m/Hzd72X5aecggRZ8WwsMdfSt420j9nZh5Hjp+nHWJ46b/AIoqrcn2dlyfppMR3rflj9+v3Jnkewq10nJPTnuxur/KYAeVrERpEaRHVEdUPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABiAD//2Q=="
+                                                        : user?.avatar
+                                                }
+                                                width={50}
+                                                height={50}
+                                                alt="profile"
+                                                className="w-[50px] h-[50px] object-cover rounded-full items-center"
+                                            />
+                                            <div className="space-y-1 mt-1">
+                                                <p className="text-black font-light h-[12px] leading-3">
+                                                    {`${user.firstname} ${user?.lastname}`}
+                                                </p>
+                                                <div className="flex space-x-1">
+                                                    <p className="text-xs font-semibold">Start a conversation</p>
+                                                    <p className="text-xs font-light text-gray-600">1min ago</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        }
+
                         {chatList.map((chat, index) => {
                             const key = chat?.id ?? `${chat?.chatwith?.firstname}-${index}`;
                             return (
@@ -157,7 +233,7 @@ export default function homepage() {
                         </div>
                         {
                             messages.map((message) => {
-                                return <div className="px-2 pb-1" key={message.id}><Message message={message} userId={userId}/></div>
+                                return <div className="px-2 pb-1" key={message.id}><Message message={message} userId={userId} /></div>
                             })
                         }
                     </div>
@@ -190,4 +266,3 @@ export default function homepage() {
         </div>
     )
 }
-

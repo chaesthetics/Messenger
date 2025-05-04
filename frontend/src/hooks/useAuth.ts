@@ -85,3 +85,18 @@ export const createMessage = async(conversation_id: any, sender_id: number, cont
         return error;
     }
 }
+
+export const searchUsers = async(userName: string) => {
+    try{
+        const response = await axios.get(`${baseURL}/api/searchUser`, {
+            params: {
+                userName: userName
+            }
+        });
+
+        return response.data.users;
+    } catch(error:any){
+        console.log(error);
+        return [];
+    }
+}

@@ -5,6 +5,7 @@ use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SearchUserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,6 +25,8 @@ Route::post('/createMessage', [MessageController::class, 'createMessage']);
 Route::get('/getMessages/{conversation_id}', [MessageController::class, 'getMessages']);
 
 Route::get('/getConversations/{userinfo_id}', [ConversationController::class, 'getConversations']);
+
+Route::get('/searchUser', SearchUserController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
