@@ -5,6 +5,7 @@ return [
 'supports_credentials' => false,
 
 'allowed_origins' => [
+    'http://localhost:3000',
     'http://35.232.205.217',  // Your frontend domain
     'https://messenger-chaesthetics-projects.vercel.app/login',
     'https://messenger-nine-murex.vercel.app/login',

@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Conversation;
 use App\Models\User;
+use App\Models\Message;
 class ConversationController extends Controller
 {
     public function createConvo(Request $request)
     {
         try{
-            if((Conversation::where('sender_id', '=', $request->sender_id)->where('receiver_id', '=', $request->receiver_id)->count() > 0 ) 
+            if((Conversation::where('sender_id', '=', $request->sender_id)->where('receiver_id', '=', $request->receiver_id)->count() > 0 )
             || (Conversation::where('sender_id', '=', $request->receiver_id)->where('receiver_id', '=', $request->sender_id)->count() > 0 ) )
             {
                 return response()->json([
@@ -22,7 +23,7 @@ class ConversationController extends Controller
                 $conversation->sender_id = $request->sender_id;
                 $conversation->receiver_id = $request->receiver_id;
                 $conversation->save();
-    
+
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Conversation has been created'
@@ -42,15 +43,19 @@ class ConversationController extends Controller
             $conversations = Conversation::where('sender_id', '=', $request->userinfo_id)->orWhere('receiver_id', '=', $request->userinfo_id)
             ->get();
             foreach($conversations as $conversation ){
-                $chatwith = 0; 
+                $chatwith = 0;
                 if($conversation->sender_id == $request->userinfo_id){
                     $chatwith = $conversation->receiver_id;
                 }else{
                     $chatwith = $conversation->sender_id;
                 }
                 $conversation->chatwith = User::find($chatwith);
+                $conversation->lastMessage = Message::where('conversation_id', $conversation->id)
+                    ->orderBy('id', 'DESC')
+                    ->pluck('content')
+                    ->first();
             }
-    
+
             return response()->json([
                 "status" => "success",
                 "conversations" => $conversations

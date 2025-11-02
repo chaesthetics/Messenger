@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\User;
+use App\Events\MessageSent;
 
 class MessageController extends Controller
 {
@@ -15,8 +16,9 @@ class MessageController extends Controller
             $message->conversation_id = $request->conversation_id;
             $message->sender_id = $request->sender_id;
             $message->content = $request->content;
-    
+
             $message->save();
+            event(new MessageSent($message->toArray(), $message->conversation_id));
             return response()->json([
                 'status' => 'success',
                 'message' => 'Message sent',
