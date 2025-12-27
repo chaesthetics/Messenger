@@ -64,9 +64,4 @@ class AuthController extends Controller
             ], Response::HTTP_METHOD_NOT_ALLOWED);
         }
     }
-
-    public function getUsers(Request $request)
-    {
-        return UserResource::collection(User::all());
-    }
 }

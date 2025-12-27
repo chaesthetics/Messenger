@@ -19,7 +19,7 @@ use App\Http\Controllers\SearchUserController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/signin', [AuthController::class, 'login']);
-Route::get('/getUsers', [AuthController::class, 'getUsers']);
+Route::get('/getUsers', [ConversationController::class, 'getUsers']);
 Route::post('/createConvo', [ConversationController::class, 'createConvo']);
 Route::post('/createMessage', [MessageController::class, 'createMessage']);
 Route::get('/getMessages/{conversation_id}', [MessageController::class, 'getMessages']);
