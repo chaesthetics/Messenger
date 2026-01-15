@@ -16,7 +16,8 @@ export type ChatType = {
     receiver_id: number;
     created_at: string | null;
     updated_at: string | null;
-    chatwith: UserType;
+    chatwith?: UserType;
+    lastMessage?: string;
 };
 
 export type ChatList = ChatType[];
